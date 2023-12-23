@@ -106,11 +106,11 @@ public class CanvasFrame extends JFrame {
             g2d.dispose();
             String fileName = JOptionPane.showInputDialog("Enter file name:");
             try {
-                ImageIO.write(image, "png", new File("./gallery/" +fileName +".png"));
+                ImageIO.write(image, "png", new File("./gallery/" + fileName + ".png"));
                 JOptionPane.showMessageDialog(null, "Image saved successfully!");
             } catch (IOException e1) {
                 e1.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Unable to save image"+fileName);
+                JOptionPane.showMessageDialog(null, "Unable to save image" + fileName);
             }
 
         });
@@ -142,6 +142,12 @@ public class CanvasFrame extends JFrame {
             drawArea.setCursor(eraserCursor);
         });
 
+        JButton clearCanvasButton = new JButton("Clear Canvas");
+        clearCanvasButton.addActionListener(e -> {
+            strokes.clear();
+            this.repaint();
+        });
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(undoButton);
         buttonPanel.add(colorButton);
@@ -150,6 +156,13 @@ public class CanvasFrame extends JFrame {
         buttonPanel.add(saveButton);
         buttonPanel.add(brushButton);
         buttonPanel.add(eraserButton);
+        JPanel clearCanvasButtonPanel = new JPanel();
+        clearCanvasButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        clearCanvasButtonPanel.add(clearCanvasButton);
+
+        this.add(buttonPanel, BorderLayout.NORTH);
+        this.add(drawArea, BorderLayout.CENTER);
+        this.add(clearCanvasButtonPanel, BorderLayout.SOUTH);
 
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(drawArea, BorderLayout.CENTER);
