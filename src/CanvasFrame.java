@@ -61,6 +61,42 @@ public class CanvasFrame extends JFrame {
             }
         });
 
+        JButton undoButton = new JButton("Undo");
+        undoButton.addActionListener(e -> {
+            if (!strokes.isEmpty()) {
+                strokes.remove(strokes.size() - 1);
+                drawArea.repaint();
+            }
+        });
+
+        JButton colorButton = new JButton("Change Color");
+        colorButton.addActionListener(e -> {
+            Color newColor = JColorChooser.showDialog(null, "Choose a color", currentColor);
+            if (newColor != null) {
+                currentColor = newColor;
+            }
+        });
+
+        JButton increaseBrushSizeButton = new JButton("Increase Brush Size");
+        increaseBrushSizeButton.addActionListener(e -> {
+            brushSize += 1;
+            if (!strokes.isEmpty()) {
+                Point lastPoint = strokes.get(strokes.size() - 1).get(strokes.get(strokes.size() - 1).size() - 1);
+                drawArea.repaint(lastPoint.x - brushSize, lastPoint.y - brushSize, brushSize * 2, brushSize * 2);
+            }
+        });
+
+        JButton decreaseBrushSizeButton = new JButton("Decrease Brush Size");
+        decreaseBrushSizeButton.addActionListener(e -> {
+            if (brushSize > 1) {
+                brushSize -= 1;
+                if (!strokes.isEmpty()) {
+                    Point lastPoint = strokes.get(strokes.size() - 1).get(strokes.get(strokes.size() - 1).size() - 1);
+                    drawArea.repaint(lastPoint.x - brushSize, lastPoint.y - brushSize, brushSize * 2, brushSize * 2);
+                }
+            }
+        });
+
 
         JButton brushButton = new JButton("Brush");
         brushButton.addActionListener(e -> {
@@ -90,6 +126,10 @@ public class CanvasFrame extends JFrame {
         });
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.add(undoButton);
+        buttonPanel.add(colorButton);
+        buttonPanel.add(increaseBrushSizeButton);
+        buttonPanel.add(decreaseBrushSizeButton);
         buttonPanel.add(brushButton);
         buttonPanel.add(eraserButton);
 
