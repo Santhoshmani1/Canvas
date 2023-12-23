@@ -97,6 +97,23 @@ public class CanvasFrame extends JFrame {
             }
         });
 
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(e -> {
+            BufferedImage image = new BufferedImage(drawArea.getWidth(), drawArea.getHeight(),
+                    BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = image.createGraphics();
+            drawArea.paint(g2d);
+            g2d.dispose();
+            String fileName = JOptionPane.showInputDialog("Enter file name:");
+            try {
+                ImageIO.write(image, "png", new File("./gallery/" +fileName +".png"));
+                JOptionPane.showMessageDialog(null, "Image saved successfully!");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Unable to save image"+fileName);
+            }
+
+        });
 
         JButton brushButton = new JButton("Brush");
         brushButton.addActionListener(e -> {
@@ -130,6 +147,7 @@ public class CanvasFrame extends JFrame {
         buttonPanel.add(colorButton);
         buttonPanel.add(increaseBrushSizeButton);
         buttonPanel.add(decreaseBrushSizeButton);
+        buttonPanel.add(saveButton);
         buttonPanel.add(brushButton);
         buttonPanel.add(eraserButton);
 
